@@ -14,7 +14,7 @@
             <input type="text" id="name" class="form-control">
         </div>
         <div class="mb-3">
-            <label for="email" class="form-label">Email</label>
+            <label for="email" class="form-label">Your Email</label>
             <input type="email" id="email" class="form-control">
         </div>
         <div class="mb-3">
