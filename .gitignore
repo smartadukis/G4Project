@@ -1,4 +1,4 @@
 /# Ignore NetBeans project files
-/.nbproject/
-/nbproject/private/
+nbproject/
+nbproject/private/
 
