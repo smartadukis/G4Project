@@ -1,16 +1,14 @@
-<!-- app/views/home.php -->
-<!DOCTYPE html>
-<html>
-<head>
-    <title>G4 Mini Mart - Home</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-</head>
-<body class="p-4">
-<div class="container">
-    <h1 class="mb-4">Welcome to G4 Mini Mart</h1>
-    <p>This is the homepage. Browse our products here.</p>
+<?php
+// public/index.php
 
-    <a href="http://localhost/g4minimart/public/products.php" class="btn btn-primary">View Products</a>
-</div>
-</body>
-</html>
+// Show errors for debugging (remove in production)
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
+require_once '../config/config.php'; // If you have one for DB, etc.
+require_once '../includes/App.php';
+require_once '../includes/Controller.php';
+require_once '../includes/Database.php'; // and other core files
+
+
+$app = new App();
