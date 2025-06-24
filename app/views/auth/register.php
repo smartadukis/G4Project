@@ -11,17 +11,18 @@
     <form action="/auth/registerUser" method="POST">
         <div class="mb-3">
             <label class="form-label">Full Name</label>
-            <input type="text" class="form-control">
+            <input type="text" name="name" class="form-control" required>
         </div>
         <div class="mb-3">
             <label class="form-label">Email</label>
-            <input type="email" class="form-control">
+            <input type="email" name="email" class="form-control" required>
         </div>
         <div class="mb-3">
             <label class="form-label">Password</label>
-            <input type="password" class="form-control">
+            <input type="password" name="password" class="form-control" required>
         </div>
-        <button class="btn btn-success">Register</button>
+        <button type="submit" class="btn btn-success">Register</button>
+        <p class="mt-3">Already have an account? <a href="/auth/login">Login here</a>.</p>
     </form>
 </div>
 </body>
