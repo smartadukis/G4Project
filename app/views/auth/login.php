@@ -8,7 +8,7 @@
 <body class="p-4">
 <div class="container">
     <h1>Login</h1>
-    <form>
+    <form action="/auth/loginUser" method="POST">
         <div class="mb-3">
             <label class="form-label">Email</label>
             <input type="email" class="form-control">

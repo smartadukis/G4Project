@@ -8,7 +8,7 @@
 <body class="p-4">
 <div class="container">
     <h1>Register</h1>
-    <form>
+    <form action="/auth/registerUser" method="POST">
         <div class="mb-3">
             <label class="form-label">Full Name</label>
             <input type="text" class="form-control">
