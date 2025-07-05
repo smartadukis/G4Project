@@ -11,23 +11,29 @@
 
 <div class="container">
     <h1 class="mb-4"><?php echo htmlspecialchars($data['pageTitle']); ?></h1>
-    <p>Here is a list of our available items.</p>
 
-    <div class="list-group">
-        <?php foreach ($data['products'] as $product): ?>
-            <a href="/product/show/<?php echo $product['id']; ?>" class="list-group-item list-group-item-action">
-                <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1"><?php echo htmlspecialchars($product['name']); ?></h5>
-                    <small>$<?php echo number_format($product['price'], 2); ?></small>
+    <?php if (empty($data['products'])): ?>
+        <div class="alert alert-warning">No products found.</div>
+    <?php else: ?>
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            <?php foreach ($data['products'] as $product): ?>
+                <div class="col">
+                    <div class="card h-100">
+                        <img src="/uploads/products/<?php echo htmlspecialchars($product['image']); ?>" class="card-img-top" alt="<?php echo htmlspecialchars($product['name']); ?>" style="height:200px; object-fit:cover;">
+                        <div class="card-body">
+                            <h5 class="card-title"><?php echo htmlspecialchars($product['name']); ?></h5>
+                            <p class="card-text text-muted">$<?php echo number_format($product['price'], 2); ?></p>
+                            <a href="/product/show/<?php echo $product['id']; ?>" class="btn btn-outline-primary btn-sm">View</a>
+                            <a href="/order/addToCart/<?php echo $product['id']; ?>" class="btn btn-success btn-sm">Add to Cart</a>
+                        </div>
+                    </div>
                 </div>
-                <p class="mb-1">Click to view more details about this amazing product.</p>
-            </a>
-        <?php endforeach; ?>
-    </div>
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
 
     <a href="/" class="btn btn-secondary mt-4">Back to Home</a>
 </div>
 
 </body>
 </html>
-

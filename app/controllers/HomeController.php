@@ -13,6 +13,8 @@ class HomeController extends Controller
     public function cart()
     {
         $this->view('cart');
+        header('Location: /order/cart');
+        exit;
     }
 
     public function checkout()
