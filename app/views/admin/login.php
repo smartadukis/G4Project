@@ -7,17 +7,17 @@
 </head>
 <body class="p-4">
 <div class="container">
-    <h1>Admin Login</h1>
-    <form>
+    <h2>Admin Login</h2>
+    <form action="/admin/login" method="POST">
         <div class="mb-3">
-            <label class="form-label">Username</label>
-            <input type="text" class="form-control">
+            <label>Email</label>
+            <input name="email" type="email" class="form-control" required>
         </div>
         <div class="mb-3">
-            <label class="form-label">Password</label>
-            <input type="password" class="form-control">
+            <label>Password</label>
+            <input name="password" type="password" class="form-control" required>
         </div>
-        <button class="btn btn-dark">Login</button>
+        <button class="btn btn-primary">Login</button>
     </form>
 </div>
 </body>

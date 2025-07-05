@@ -7,21 +7,26 @@
 </head>
 <body class="p-4">
 <div class="container">
-    <h1>Add New Product</h1>
-    <form enctype="multipart/form-data">
+    <h2>Add New Product</h2>
+    <form action="/admin/addProduct" method="POST" enctype="multipart/form-data">
         <div class="mb-3">
-            <label class="form-label">Name</label>
-            <input type="text" class="form-control">
+            <label>Name:</label>
+            <input name="name" class="form-control" required>
         </div>
         <div class="mb-3">
-            <label class="form-label">Price</label>
-            <input type="number" class="form-control">
+            <label>Price:</label>
+            <input name="price" type="number" step="0.01" class="form-control" required>
         </div>
         <div class="mb-3">
-            <label class="form-label">Image</label>
-            <input type="file" class="form-control">
+            <label>Description:</label>
+            <textarea name="description" class="form-control"></textarea>
         </div>
-        <button class="btn btn-success">Save Product</button>
+        <div class="mb-3">
+            <label>Image:</label>
+            <input name="image" type="file" class="form-control">
+        </div>
+        <button class="btn btn-success">Add Product</button>
+        <a href="/admin/dashboard" class="btn btn-secondary">Cancel</a>
     </form>
 </div>
 </body>

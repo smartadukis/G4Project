@@ -1,40 +1,43 @@
 <!-- app/views/dashboard/index.php -->
-
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>User Dashboard</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>My Orders</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 </head>
 <body class="p-4">
-
 <div class="container">
-    <h1 class="mb-3">Welcome, <?php echo htmlspecialchars($data['username']); ?>!</h1>
+    <h2>Welcome, <?= htmlspecialchars($_SESSION['user_name'] ?? 'Customer') ?></h2>
+    <h4 class="mt-4">Your Orders</h4>
 
-    <p>Your recent orders:</p>
+    <?php if (empty($data['orders'])): ?>
+        <p>You haven't made any orders yet.</p>
+    <?php else: ?>
+        <table class="table table-bordered mt-3">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Date</th>
+                    <th>Product</th>
+                    <th>Qty</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+            <?php foreach ($data['orders'] as $order): ?>
+                <tr>
+                    <td><?= $order['id'] ?></td>
+                    <td><?= date('M d, Y', strtotime($order['created_at'])) ?></td>
+                    <td><?= htmlspecialchars($order['name']) ?></td>
+                    <td><?= $order['quantity'] ?></td>
+                    <td>$<?= number_format($order['price'], 2) ?></td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    <?php endif; ?>
 
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>Order #</th>
-                <th>Total</th>
-                <th>Date</th>
-            </tr>
-        </thead>
-        <tbody>
-        <?php foreach ($data['orders'] as $order): ?>
-            <tr>
-                <td>#<?php echo $order['id']; ?></td>
-                <td>$<?php echo number_format($order['total'], 2); ?></td>
-                <td><?php echo $order['date']; ?></td>
-            </tr>
-        <?php endforeach; ?>
-        </tbody>
-    </table>
-
-    <a href="/auth/logout" class="btn btn-danger">Logout</a>
+    <a href="/" class="btn btn-secondary mt-4">Back to Store</a>
 </div>
-
 </body>
 </html>
