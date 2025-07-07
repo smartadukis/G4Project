@@ -1,0 +1,179 @@
+/* public/assets/css/style.css */
+
+/* === Color Palette ===
+   Primary:    #667eea  (deep periwinkle)
+   Secondary:  #764ba2  (rich purple)
+   Accent:     #ffd700  (gold)
+   Neutral:    #f8f9fa  (light gray)
+   Text Base:  #333333
+*/
+
+/* Reset & Base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  color: #333333;
+  background-color: #f8f9fa;
+  padding-top: 60px; /* for fixed header */
+}
+
+/* Header */
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #fff;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  z-index: 1000;
+}
+header .logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-decoration: none;
+  color: #fff;
+}
+
+/* Footer */
+footer {
+  background: #333333;
+  color: #fff;
+  text-align: center;
+  padding: 1rem 0;
+  margin-top: 4rem;
+}
+
+/* Container */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Page Title */
+.page-title {
+  margin-bottom: 1.5rem;
+  color: #333333;
+}
+
+/* === BUTTON BASE STYLES === */
+.btn {
+  display: inline-block;
+  font-weight: 500;
+  text-align: center;
+  text-decoration: none;
+  border: 2px solid transparent;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, transform 0.1s;
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+/* Size modifiers */
+.btn-sm {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+}
+
+/* Primary outline */
+.btn-outline-primary {
+  border-color: #667eea;
+  color: #667eea;
+  background: transparent;
+  padding: 0.5rem 1rem;
+}
+.btn-outline-primary:hover {
+  background: #667eea;
+  color: #fff;
+}
+
+/* Success (accent) */
+.btn-success {
+  background: #667eea;
+  border-color: #667eea;
+  color: #fff;
+  padding: 0.5rem 1rem;
+}
+.btn-success:hover {
+  background: #764ba2;
+  border-color: #764ba2;
+}
+
+/* Secondary */
+.btn-secondary {
+  background: #764ba2;
+  border-color: #764ba2;
+  color: #fff;
+  padding: 0.5rem 1rem;
+}
+.btn-secondary:hover {
+  background: #667eea;
+  border-color: #667eea;
+}
+
+/* Product Grid */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Card */
+.card {
+  background: #fff;
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+.card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+.card-body {
+  padding: 1rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.card-title {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  color: #333333;
+}
+.card-text {
+  flex: 1;
+  color: #666666;
+  margin-bottom: 1rem;
+}
+.card-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+  .product-grid {
+    grid-template-columns: 1fr;
+  }
+}

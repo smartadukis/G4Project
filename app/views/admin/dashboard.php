@@ -8,12 +8,16 @@
 <body class="p-4">
 <div class="container">
     <h1>Admin Dashboard</h1>
-    <a href="/admin/addProduct" class="btn btn-success mb-3">Add New Product</a>
+    <a href="/admin/addProduct" class="btn btn-success me-3 mb-3">Add New Product</a>
+    <a href="/admin/manageProducts" class="btn btn-info mb-3">Manage Products</a>
 
     <table class="table table-bordered">
         <thead>
         <tr>
-            <th>Name</th><th>Price</th><th>Image</th><th>Actions</th>
+            <th>Name</th>
+            <th>Price ($)</th>
+            <th>Image</th>
+            <!-- <th>Actions</th> -->
         </tr>
         </thead>
         <tbody>
@@ -23,17 +27,19 @@
                 <td>$<?= number_format($product['price'], 2) ?></td>
                 <td>
                     <?php if ($product['image']): ?>
-                        <img src="/uploads/products/<?= $product['image'] ?>" width="50">
+                        <img src="/uploads/products/<?= $product['image'] ?>" width="50" height="50" alt="<?= htmlspecialchars($product['name']) ?>">
                     <?php endif; ?>
                 </td>
-                <td>
-                    <!-- Edit to be added later -->
+                <!-- <td>
+                    <a href="/admin/editProduct/<?= $product['id'] ?>" class="btn btn-sm btn-secondary">Edit</a>
                     <a href="/admin/deleteProduct/<?= $product['id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Delete this product?')">Delete</a>
-                </td>
+                </td> -->
             </tr>
         <?php endforeach; ?>
         </tbody>
     </table>
+    <a href="/admin/logout" class="btn btn-outline-danger btn-sm float-end">Logout</a>
+
 
 </div>
 </body>

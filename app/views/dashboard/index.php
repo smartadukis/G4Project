@@ -20,7 +20,7 @@
                     <th>Date</th>
                     <th>Product</th>
                     <th>Qty</th>
-                    <th>Price</th>
+                    <th>Price ($)</th>
                 </tr>
             </thead>
             <tbody>
