@@ -1,7 +1,7 @@
 
     <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"> -->
 
-    <!-- app/views/product.php -->
+    <!-- app/views/product.php [ADD TO CART BUTTON]-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,9 +34,10 @@
             <p class="card-text">$<?= number_format($p['price'], 2) ?></p>
             <div class="card-actions">
               <a href="#" class="btn btn-outline-primary btn-sm">View</a>
-              <a href="#" class="btn btn-success btn-sm">Add to Cart</a>
-              <!-- <a href="/product/show/<?= $p['id'] ?>" class="btn btn-outline-primary btn-sm">View</a>
-              <a href="/order/addToCart/<?= $p['id'] ?>" class="btn btn-success btn-sm">Add to Cart</a> -->
+              <a href="/order/addToCart/<?= $p['id'] ?>"
+                class="btn btn-success btn-sm">
+                Add to Cart
+              </a>
             </div>
           </div>
         </div>

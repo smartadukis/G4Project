@@ -38,7 +38,7 @@
                             <?php endif; ?>
                         </td>
                         <td>
-                            <a href="/admin/editProduct/<?= $product['id'] ?>" class="btn btn-sm btn-secondary">Edit</a>
+                            <!-- <a href="/admin/editProduct/<?= $product['id'] ?>" class="btn btn-sm btn-secondary">Edit</a> -->
                             <a href="/admin/deleteProduct/<?= $product['id'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</a>
                         </td>
                     </tr>

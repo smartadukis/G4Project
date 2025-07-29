@@ -13,6 +13,8 @@
     </script>
 </head>
 <body class="p-4">
+
+
 <div class="container">
     <h1>Checkout</h1>
     <form action="/order/processCheckout" method="POST">
@@ -40,6 +42,7 @@
         </div>
 
         <button class="btn btn-primary">Place Order</button>
+        <a href="/product" class="btn btn-outline-secondary ms-3">Continue Shopping</a>
     </form>
 </div>
 </body>

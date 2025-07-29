@@ -1,23 +1,82 @@
 <?php
-// app/controllers/OrderController.php
+    // app/controllers/OrderController.php
+    require_once __DIR__ . '/../models/Product.php';
+    require_once __DIR__ . '/../models/Order.php';
+    require_once __DIR__ . '/../models/User.php';
 
-require_once __DIR__ . '/../models/Product.php';
-require_once __DIR__ . '/../models/Order.php';
-require_once __DIR__ . '/../models/User.php';
-
-class OrderController extends Controller
-{
-    private $productModel;
-    private $orderModel;
-    private $userModel;
-
-    public function __construct()
+    class OrderController extends Controller
     {
-        session_start();
-        $this->productModel = new Product();
-        $this->orderModel = new Order();
-        $this->userModel = new User();
-    }
+        private $productModel;
+        private $orderModel;
+        private $userModel;
+
+        public function __construct()
+        {
+            session_start();
+            $this->productModel = new Product();
+            $this->orderModel   = new Order();
+            $this->userModel    = new User();
+        }
+
+        // Redirect /order → /order/cart
+        public function index()
+        {
+            header('Location: /order/cart');
+            exit;
+        }
+
+        // Display the cart
+        public function cart()
+        {
+            $cart = $_SESSION['cart'] ?? [];
+            $total = array_sum(array_map(fn($i) => $i['price'] * $i['quantity'], $cart));
+            $this->view('cart', ['cartItems' => $cart, 'total' => $total]);
+        }
+
+        
+        public function addToCart($id)
+        {
+            $product = $this->productModel->findById($id);
+            if (!$product) {
+                die('Product not found.');
+            }
+
+            if (!isset($_SESSION['cart'])) {
+                $_SESSION['cart'] = [];
+            }
+            if (isset($_SESSION['cart'][$id])) {
+                $_SESSION['cart'][$id]['quantity']++;
+            } else {
+                $_SESSION['cart'][$id] = [
+                    'id'       => $product['id'],
+                    'name'     => $product['name'],
+                    'price'    => $product['price'],
+                    'quantity' => 1
+                ];
+            }
+
+            header('Location: /order/cart');
+            exit;
+        }
+
+        // Remove a single product
+        public function removeFromCart($id)
+        {
+            if (isset($_SESSION['cart'][$id])) {
+                unset($_SESSION['cart'][$id]);
+            }
+            header('Location: /order/cart');
+            exit;
+        }
+
+        // Clear the entire cart
+        public function clear()
+        {
+            unset($_SESSION['cart']);
+            header('Location: /order/cart');
+            exit;
+        }
+
 
     public function checkout()
     {

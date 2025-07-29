@@ -26,7 +26,7 @@ class AdminController extends Controller
             $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
             $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-            // Simple static login (adjust securely later)
+            // Simple static login
             if ($email === 'admin@g4minimart.com' && $password === 'admin123') {
                 $_SESSION['is_admin'] = true;
                 header('Location: /admin/dashboard');
@@ -57,7 +57,7 @@ class AdminController extends Controller
         $this->view('admin/dashboard', ['products' => $products]);
     }
 
-    // Manage all products (with options to edit/delete)
+    // Manage Products
     public function manageProducts()
     {
         $this->ensureAdmin();

@@ -9,6 +9,7 @@
 <div class="container">
     <h1>Thank You!</h1>
     <p>Your order has been placed successfully.</p>
+    <a href="/product" class="btn btn-outline-secondary">Back to Products</a>
 </div>
 </body>
 </html>

@@ -15,7 +15,7 @@
             <input type="text" name="name" class="form-control" value="<?= htmlspecialchars($data['product']['name']) ?>" required>
         </div>
         <div class="mb-3">
-            <label class="form-label">Price (₦)</label>
+            <label class="form-label">Price ($)</label>
             <input type="number" name="price" step="0.01" class="form-control" value="<?= $data['product']['price'] ?>" required>
         </div>
         <div class="mb-3">

@@ -38,7 +38,7 @@
         <?php endforeach; ?>
         </tbody>
     </table>
-    <a href="/admin/logout" class="btn btn-outline-danger btn-sm float-end">Logout</a>
+    <!-- <a href="/admin/logout" class="btn btn-outline-danger btn-sm float-end">Logout</a> -->
 
 
 </div>
