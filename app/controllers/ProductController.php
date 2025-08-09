@@ -30,10 +30,11 @@ class ProductController extends Controller
             return;
         }
 
-        echo "<h1>" . htmlspecialchars($product['name']) . "</h1>";
-        echo "<p>₦" . number_format($product['price'], 2) . "</p>";
-        echo "<p>" . htmlspecialchars($product['description']) . "</p>";
+        $this->view('product_detail', [
+            'product' => $product
+        ]);
     }
+
 
     public function edit($id)
     {
@@ -56,17 +57,29 @@ class ProductController extends Controller
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function update($id, $name, $price, $description, $image = null)
+    public function update()
     {
-        $stmt = $this->db->prepare("UPDATE products SET name = :name, price = :price, description = :description, image = :image WHERE id = :id");
-        return $stmt->execute([
-            'name' => $name,
-            'price' => $price,
-            'description' => $description,
-            'image' => $image,
-            'id' => $id
-        ]);
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
+            $id = $_POST['id'];
+            $name = $_POST['name'];
+            $price = $_POST['price'];
+            $description = $_POST['description'];
+            $imageName = $_POST['old_image'] ?? null;
+
+            if (!empty($_FILES['image']['name'])) {
+                $targetDir = __DIR__ . '/../../public/uploads/products/';
+                if (!is_dir($targetDir)) mkdir($targetDir, 0755, true);
+                $imageName = time() . '_' . basename($_FILES['image']['name']);
+                move_uploaded_file($_FILES['image']['tmp_name'], $targetDir . $imageName);
+            }
+
+            $this->productModel->update($id, $name, $price, $description, $imageName);
+            header('Location: /admin/manageProducts');
+            exit;
+        }
     }
+
+
 
 
     public function manage()

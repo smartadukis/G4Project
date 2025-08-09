@@ -145,16 +145,36 @@ class AdminController extends Controller
             $description = $_POST['description'] ?? '';
             $image = $_FILES['image'] ?? null;
 
-            $filename = $product['image']; // Keep existing image by default
-            if ($image && $image['tmp_name']) {
+            // Keep existing image by default
+            $filename = $product['image'];
+
+            // If a new image was uploaded, save it to public/uploads/products/
+            if ($image && !empty($image['tmp_name'])) {
                 $filename = time() . '_' . basename($image['name']);
-                $targetPath = __DIR__ . '/../../uploads/products/' . $filename;
-                move_uploaded_file($image['tmp_name'], $targetPath);
+
+                // Use the same public uploads folder used in addProduct
+                $targetDir = __DIR__ . '/../../public/uploads/products/';
+                // Ensure directory exists
+                if (!is_dir($targetDir)) {
+                    mkdir($targetDir, 0755, true);
+                }
+
+                $targetPath = $targetDir . $filename;
+
+                if (!move_uploaded_file($image['tmp_name'], $targetPath)) {
+                    die("Failed to move uploaded file. Check permissions and path: $targetPath");
+                }
             }
 
-            $this->productModel->update($id, $name, $price, $description, $filename);
-            header('Location: /admin/manageProducts');
-            exit;
+            // Delegate update to the model
+            $updated = $this->productModel->update($id, $name, $price, $description, $filename);
+
+            if ($updated) {
+                header('Location: /admin/manageProducts');
+                exit;
+            } else {
+                echo "Failed to update product.";
+            }
         }
 
         $this->view('admin/edit_product', ['product' => $product]);

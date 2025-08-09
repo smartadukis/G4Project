@@ -37,27 +37,43 @@ class Product
     }
 
 
-    public function update($id, $name, $price, $image = null)
+    public function update($id, $name, $price, $description, $imageFilename = null)
     {
-        if ($image) {
-            $stmt = $this->db->prepare("UPDATE products SET name = :name, price = :price, image = :image WHERE id = :id");
+        if ($imageFilename !== null && $imageFilename !== '') {
+            // update image as well
+            $sql = "UPDATE products
+                    SET name = :name,
+                        price = :price,
+                        description = :description,
+                        image = :image
+                    WHERE id = :id";
+            $stmt = $this->db->prepare($sql);
             return $stmt->execute([
-                'id' => $id,
-                'name' => $name,
-                'price' => $price,
-                'image' => $image
+                ':name'        => $name,
+                ':price'       => $price,
+                ':description' => $description,
+                ':image'       => $imageFilename,
+                ':id'          => $id
             ]);
         } else {
-            $stmt = $this->db->prepare("UPDATE products SET name = :name, price = :price WHERE id = :id");
+            // keep existing image
+            $sql = "UPDATE products
+                    SET name = :name,
+                        price = :price,
+                        description = :description
+                    WHERE id = :id";
+            $stmt = $this->db->prepare($sql);
             return $stmt->execute([
-                'id' => $id,
-                'name' => $name,
-                'price' => $price
+                ':name'        => $name,
+                ':price'       => $price,
+                ':description' => $description,
+                ':id'          => $id
             ]);
         }
     }
 
-     public function delete($id)
+
+    public function delete($id)
     {
         // Fetch product to delete image too
         $stmt = $this->db->prepare("SELECT image FROM products WHERE id = :id LIMIT 1");
