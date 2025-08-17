@@ -27,7 +27,7 @@
     <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
       <div>
         <h2 class="mb-1">Welcome back, <?= htmlspecialchars($_SESSION['user_name'] ?? 'Customer') ?></h2>
-        <div class="order-meta">Here you can review your past orders. Secure, simple and quick.</div>
+        <div class="order-meta text-white">Here you can review your past orders. Secure, simple and quick.</div>
       </div>
       <div class="text-end">
         <div class="text-muted small">Member since</div>

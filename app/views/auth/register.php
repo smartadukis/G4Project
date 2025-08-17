@@ -3,11 +3,12 @@
 <html>
 <head>
     <title>Register</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 </head>
-<body class="p-4">
-<div class="container">
-    <h1>Register</h1>
+<body class="d-flex align-items-center justify-content-center vh-100 bg-light">
+<div class="card shadow-lg p-4 rounded-4" style="max-width: 450px; width: 100%;">
+    <h3 class="text-center mb-4">Create Account</h3>
     <form action="/auth/registerUser" method="POST">
         <div class="mb-3">
             <label class="form-label">Full Name</label>
@@ -21,9 +22,10 @@
             <label class="form-label">Password</label>
             <input type="password" name="password" class="form-control" required>
         </div>
-        <button type="submit" class="btn btn-success">Register</button>
-        <p class="mt-3">Already have an account? <a href="/auth/login">Login here</a>.</p>
+        <button type="submit" class="btn btn-outline-primary w-100">Register</button>
     </form>
+    <p class="mt-3 text-center">Already have an account? <a href="/auth/login">Login here</a>.</p>
 </div>
 </body>
 </html>
+

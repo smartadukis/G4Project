@@ -1,32 +1,46 @@
 <?php
 // app/controllers/AdminController.php
 
+/**
+ * Controller handling Admin authentication and product management.
+ */
 class AdminController extends Controller
 {
     private Product $productModel;
 
     public function __construct()
     {
+        // Load Product model for CRUD operations
         require_once __DIR__ . '/../models/Product.php';
         $this->productModel = new Product();
+
+        // Start a session for admin authentication
         session_start();
     }
 
-    // Default action for /admin
+    /**
+     * Default route for /admin
+     * Redirects to admin dashboard
+     */
     public function index()
     {
         header('Location: /admin/dashboard');
         exit;
     }
 
-    // Admin Login
+    /**
+     * Admin login page + authentication
+     * - GET: Show login form
+     * - POST: Verify credentials
+     */
     public function login()
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            // Sanitize inputs
             $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
             $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-            // Simple static login
+            // Static login (could later be replaced with DB lookup)
             if ($email === 'admin@g4minimart.com' && $password === 'admin123') {
                 $_SESSION['is_admin'] = true;
                 header('Location: /admin/dashboard');
@@ -39,6 +53,9 @@ class AdminController extends Controller
         $this->view('admin/login');
     }
 
+    /**
+     * Logs out the admin and destroys the session
+     */
     public function logout()
     {
         session_start();
@@ -48,8 +65,10 @@ class AdminController extends Controller
         exit;
     }
 
-
-    // Admin Dashboard (Product Overview)
+    /**
+     * Admin Dashboard
+     * Displays all products in overview
+     */
     public function dashboard()
     {
         $this->ensureAdmin();
@@ -57,23 +76,26 @@ class AdminController extends Controller
         $this->view('admin/dashboard', ['products' => $products]);
     }
 
-    // Manage Products
+    /**
+     * Manage Products (same as dashboard but with management actions)
+     */
     public function manageProducts()
     {
         $this->ensureAdmin();
-
         $products = $this->productModel->getAll();
         $this->view('admin/manage_products', ['products' => $products]);
     }
 
-
-    // Add a new product
+    /**
+     * Add a new product
+     * Handles image upload and inserts into DB
+     */
     public function addProduct()
     {
         $this->ensureAdmin();
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
+            // Sanitize input fields
             $name        = filter_input(INPUT_POST, 'name',  FILTER_SANITIZE_FULL_SPECIAL_CHARS);
             $price       = filter_input(INPUT_POST, 'price', FILTER_VALIDATE_FLOAT);
             $description = filter_input(INPUT_POST, 'description', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -81,16 +103,12 @@ class AdminController extends Controller
 
             $filename = null;
 
+            // Handle image upload if present
             if ($image && $image['tmp_name']) {
-
-                // 1. Build a filename
                 $filename = time() . '_' . basename($image['name']);
-
-                // 2. Point to the public uploads folder
-                //    __DIR__ = /app/controllers
                 $targetPath = __DIR__ . '/../../public/uploads/products/' . $filename;
 
-                // 3. Ensure the directory exists & is writable
+                // Ensure uploads folder exists
                 if (!is_dir(dirname($targetPath))) {
                     mkdir(dirname($targetPath), 0755, true);
                 }
@@ -98,6 +116,7 @@ class AdminController extends Controller
                 move_uploaded_file($image['tmp_name'], $targetPath);
             }
 
+            // Save product via model
             $this->productModel->create(
                 $name,
                 $price ?: 0,
@@ -112,8 +131,11 @@ class AdminController extends Controller
         $this->view('admin/add_product');
     }
 
-
-    // Delete product
+    /**
+     * Delete a product by ID
+     *
+     * @param int|null $id Product ID
+     */
     public function deleteProduct($id = null)
     {
         $this->ensureAdmin();
@@ -126,11 +148,17 @@ class AdminController extends Controller
         exit;
     }
 
+    /**
+     * Edit an existing product
+     * - GET: Display edit form
+     * - POST: Update product in DB
+     *
+     * @param int $id Product ID
+     */
     public function editProduct($id)
     {
         $this->ensureAdmin();
 
-        // Fetch the product by ID
         $product = $this->productModel->findById($id);
 
         if (!$product) {
@@ -138,23 +166,18 @@ class AdminController extends Controller
             return;
         }
 
-        // If form is submitted
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $name = $_POST['name'] ?? '';
-            $price = $_POST['price'] ?? 0;
+            $name        = $_POST['name'] ?? '';
+            $price       = $_POST['price'] ?? 0;
             $description = $_POST['description'] ?? '';
-            $image = $_FILES['image'] ?? null;
+            $image       = $_FILES['image'] ?? null;
 
-            // Keep existing image by default
-            $filename = $product['image'];
+            $filename = $product['image']; // keep old image by default
 
-            // If a new image was uploaded, save it to public/uploads/products/
             if ($image && !empty($image['tmp_name'])) {
                 $filename = time() . '_' . basename($image['name']);
-
-                // Use the same public uploads folder used in addProduct
                 $targetDir = __DIR__ . '/../../public/uploads/products/';
-                // Ensure directory exists
+
                 if (!is_dir($targetDir)) {
                     mkdir($targetDir, 0755, true);
                 }
@@ -162,11 +185,11 @@ class AdminController extends Controller
                 $targetPath = $targetDir . $filename;
 
                 if (!move_uploaded_file($image['tmp_name'], $targetPath)) {
-                    die("Failed to move uploaded file. Check permissions and path: $targetPath");
+                    die("Failed to move uploaded file: $targetPath");
                 }
             }
 
-            // Delegate update to the model
+            // Update via model
             $updated = $this->productModel->update($id, $name, $price, $description, $filename);
 
             if ($updated) {
@@ -178,9 +201,11 @@ class AdminController extends Controller
         }
 
         $this->view('admin/edit_product', ['product' => $product]);
-    }   
+    }
 
-    // Protect admin pages
+    /**
+     * Protects all admin routes
+     */
     private function ensureAdmin()
     {
         if (empty($_SESSION['is_admin'])) {
